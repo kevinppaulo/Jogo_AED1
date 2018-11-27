@@ -1,0 +1,81 @@
+# Importar módulo pygame e do sistema
+import pygame, sys
+# Constantes usadas pelo pygame
+from pygame.locals import *
+from Directions import *
+from Player import *
+from Colors import *
+from Config import *
+
+WINDOW_WIDTH = 1252
+WINDOW_HEIGHT = 648
+
+backgroundImg = "assets/backgrounds/background_1.png"
+
+
+def initPlayableCharacter():
+    character = Player()
+    character.setSpriteFile("assets/sprites/spritestrip.png")
+    character.setSpriteHeight(256)
+    character.setSpriteWidth(256)
+    character.setSpriteMaxWidth(256 * 6)
+    character.setCurrentFrameState(1)
+    character.setMaxFrameState(6)
+    character.setPosx(5)
+    character.setPosy(WINDOW_HEIGHT - character.getSpriteHeight() - 45)
+    return character
+
+
+
+def main():
+    fpsClock = pygame.time.Clock()
+    pygame.init()
+    DISPLAYSURF = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    pygame.display.set_caption('Projeto AED')
+    playableCharacter = initPlayableCharacter()
+
+    while True:
+        #CAPTURA DE EVENTOS
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    playableCharacter.move(Directions.LEFT)
+                if event.key == pygame.K_RIGHT:
+                    playableCharacter.move(Directions.RIGHT)
+
+            if event.type == pygame.KEYUP:
+                playableCharacter.move(Directions.IDLE)
+        # Lógica do jogo vai aqui
+        # ------
+
+        # Desenhar na Surface
+        # Desenhar backgorund
+        backgroundImage = pygame.image.load(backgroundImg)
+        DISPLAYSURF.fill(Colors.SPACE_GRAY)
+        DISPLAYSURF.blit(backgroundImage, (0, 0))
+
+        #set character position
+        if(playableCharacter.getMovingDirection() == Directions.RIGHT):
+            playableCharacter.setPosx(playableCharacter.getPosx() + 45)
+
+        if(playableCharacter.getMovingDirection() == Directions.LEFT):
+            playableCharacter.setPosx(playableCharacter.getPosx() - 45)
+
+
+        if (playableCharacter.getCurrentFrameState() > playableCharacter.getMaxFrameState() - 1):
+            playableCharacter.setCurrentFrameState(1)
+        else:
+            playableCharacter.setCurrentFrameState(playableCharacter.getCurrentFrameState() + 1)
+
+        print(playableCharacter.getCurrentFrameState())
+
+        charSprite = pygame.image.load(playableCharacter.getSpriteFile()).subsurface(playableCharacter.getFrameQuad())
+        print(playableCharacter.getFrameQuad())
+        DISPLAYSURF.blit(charSprite, (playableCharacter.getPosx(), playableCharacter.getPosy()))
+        pygame.display.update()
+        fpsClock.tick(FRAME_RATE)
+
+main()

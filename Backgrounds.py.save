@@ -1,0 +1,21 @@
+import pygame, sys
+from pygame.locals import *
+from Directions import *
+from Colors import *
+from Config import *
+
+class Backgrounds:
+	def __init__(self, xCoord = 0, yCoord = 0, backgroundWidth = 0, backgroundHeight =0, backgroundImage):
+		self.__xCoord = xCoord
+		self.__yCoord = yCoord
+		self.__backgroundWidth = backgroundWidth
+		self.__backgroundHeight = backgroundHeight
+		self.__backgroundImage = backgroundImage
+
+	def getDrawable(self):
+		return pygame.image.load(backgroundImage)
+
+	def draw(self, canvas):
+		canvas.fill(Colors.SPACE_GRAY)
+		canvas.blit(self.getDrawable(), (self.__xCoord, self.__yCoord))
+

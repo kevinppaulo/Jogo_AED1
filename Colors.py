@@ -1,0 +1,13 @@
+class Colors:
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    BLUE = (0, 0, 255)
+    SPACE_GRAY = (35, 35, 35)
+    PRIMARY = (71, 214, 255)
+    SUCCESS = (59, 255, 148)
+    WARNING = (255, 152, 7)
+    DANGER = (255, 85, 23)
+    LIGHT_BLUE = (121, 248, 255)
+    SPACE_GRAY = (23, 23, 23)
